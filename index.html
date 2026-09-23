@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico Hormonal & Emagrecimento — Dr. Felipe Sanches</title>
+<style>
+  :root{
+    --orange:#c2410c; --orange2:#e8590c; --orange-soft:#fff3ea; --orange-line:#f3ddcd;
+    --ink:#2b2320; --muted:#7a7168; --white:#ffffff; --sand:#faf6f2;
+    --ok:#6b8f71; --warn:#d97706; --bad:#c2410c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--white);color:var(--ink);line-height:1.6}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px}
+  section{padding:64px 0}
+  h1,h2,h3{line-height:1.25}
+  h1{font-size:clamp(1.7rem,4.5vw,2.6rem)}
+  h2{font-size:clamp(1.4rem,3.5vw,2rem);margin-bottom:16px}
+  .center{text-align:center}
+  .tag{display:inline-block;background:var(--orange);color:#fff;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:99px;margin-bottom:18px}
+  .lead{font-size:1.1rem;color:var(--muted);max-width:640px}
+  .btn{display:inline-block;background:var(--orange);color:#fff;font-weight:700;font-size:1.05rem;padding:16px 34px;border:none;border-radius:12px;cursor:pointer;text-decoration:none;box-shadow:0 6px 18px rgba(194,65,12,.30);transition:.2s}
+  .btn:hover{background:var(--orange2);transform:translateY(-2px)}
+  .btn.ghost{background:transparent;color:var(--orange);box-shadow:none;border:2px solid var(--orange)}
+  .btn.wide{display:block;width:100%;text-align:center}
+
+  /* HERO */
+  .hero{background:var(--white);padding:72px 0 84px}
+  .hero h1{color:var(--ink)}
+  .hero h1 em{font-style:normal;color:var(--orange)}
+  .hero .lead{color:var(--muted)}
+  .hero-badges{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px;justify-content:center}
+  .badge{background:var(--orange-soft);border:1px solid var(--orange-line);border-radius:10px;padding:10px 16px;font-size:.85rem;color:var(--ink)}
+
+  /* PRA QUEM */
+  .alt{background:var(--sand)}
+  .list{list-style:none;margin-top:24px}
+  .list li{background:#fff;border-left:4px solid var(--orange);border-radius:10px;padding:16px 20px;margin-bottom:12px;box-shadow:0 2px 8px rgba(43,35,32,.06)}
+
+  /* ETAPAS */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:28px}
+  .card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 3px 12px rgba(43,35,32,.08)}
+  .card .num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:var(--orange);color:#fff;font-weight:800;margin-bottom:12px}
+  .card h3{font-size:1.05rem;margin-bottom:8px}
+  .card p{font-size:.92rem;color:var(--muted)}
+
+  /* QUIZ */
+  .quiz-zone{background:var(--sand);padding:56px 0}
+  .quiz-box{background:#fff;border-radius:18px;max-width:640px;margin:0 auto;padding:36px 30px;box-shadow:0 12px 40px rgba(43,35,32,.12)}
+  .progress{height:8px;background:var(--orange-line);border-radius:99px;margin-bottom:28px;overflow:hidden}
+  .progress .bar{height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--orange2));border-radius:99px;transition:width .4s}
+  .q-count{font-size:.78rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+  .q-title{font-size:1.25rem;font-weight:700;color:var(--ink);margin-bottom:20px}
+  .opt{display:block;width:100%;text-align:left;background:var(--white);border:2px solid var(--orange-line);border-radius:12px;padding:14px 18px;margin-bottom:10px;font-size:.98rem;cursor:pointer;transition:.15s;color:var(--ink)}
+  .opt:hover{border-color:var(--orange);background:var(--orange-soft)}
+  .opt.sel{border-color:var(--orange);background:var(--orange-soft);font-weight:600}
+  .q-nav{display:flex;justify-content:space-between;margin-top:20px}
+  .back{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:8px}
+  .back:hover{color:var(--ink)}
+  .q-input{width:100%;padding:14px 16px;border:2px solid var(--orange-line);border-radius:12px;font-size:1rem;margin-bottom:12px}
+  .q-input:focus{outline:none;border-color:var(--orange)}
+  .field-label{font-size:.85rem;font-weight:700;color:var(--ink);display:block;margin-bottom:6px}
+  .small-note{font-size:.78rem;color:var(--muted);margin-top:8px}
+
+  /* LOADING */
+  .loading{ text-align:center;padding:30px 0 10px}
+  .spinner{width:58px;height:58px;border:5px solid var(--orange-line);border-top-color:var(--orange);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 24px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .load-phrase{font-size:1.08rem;font-weight:600;color:var(--ink);min-height:2.2em;animation:fadein .5s}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .load-track{height:6px;background:var(--orange-line);border-radius:99px;overflow:hidden;margin-top:22px}
+  .load-track .fill{height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--orange2));animation:loadbar 4.8s ease forwards}
+  @keyframes loadbar{to{width:100%}}
+
+  /* RESULTADO */
+  .meter{background:var(--orange-line);border-radius:99px;height:22px;position:relative;margin:18px 0 6px;overflow:hidden}
+  .meter .fill{height:100%;border-radius:99px;transition:width 1s ease}
+  .meter-label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:22px}
+  .result-card{border-radius:14px;padding:20px 22px;margin-bottom:18px}
+  .result-card.red{background:var(--orange-soft);border-left:5px solid var(--bad)}
+  .result-card.amber{background:#fdf6e3;border-left:5px solid var(--warn)}
+  .result-card.green{background:#eef5ef;border-left:5px solid var(--ok)}
+  .result-card h3{margin-bottom:6px;font-size:1.05rem}
+  .result-card p{font-size:.93rem;color:var(--ink)}
+  .cta-consulta{background:linear-gradient(135deg,#a63d0f,var(--orange));color:#fff;border-radius:16px;padding:26px;text-align:center;margin-top:8px}
+  .cta-consulta h3{color:#fff;margin-bottom:8px}
+  .cta-consulta p{color:#ffe3d5;font-size:.95rem;margin-bottom:16px}
+  .cta-consulta .btn{background:#fff;color:#a63d0f;box-shadow:none}
+  .cta-ebook{background:#fff;border:2px dashed var(--orange);border-radius:16px;padding:26px;text-align:center;margin-top:18px}
+  .cta-ebook h3{margin-bottom:8px}
+  .cta-ebook p{color:var(--muted);font-size:.93rem;margin-bottom:16px}
+
+  .foot{background:var(--sand);border-top:3px solid var(--orange);color:var(--muted);font-size:.8rem;text-align:center;padding:26px 0}
+  @media(max-width:600px){.quiz-box{padding:26px 18px}}
+</style>
+<!-- Meta Pixel — eventos: PageView (abertura), Lead (quiz concluído), Contact (clique WhatsApp), InitiateCheckout (clique ebook) -->
+<script>
+(function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];t.parentNode.insertBefore(t,s)})(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','28235798952756612');
+fbq('track','PageView');
+</script>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="wrap center">
+    <span class="tag">Diagnóstico gratuito · 3 minutos</span>
+    <h1>Descubra em 3 minutos <em>por que o seu peso travou</em> — e o que o seu corpo está tentando te dizer</h1>
+    <p class="lead" style="margin:18px auto 0">Um diagnóstico personalizado que analisa sono, alimentação, atividade física e o impacto disso na sua vida para revelar o real grau de desequilíbrio — e o caminho mais curto para reverter.</p>
+    <div style="margin-top:30px"><button class="btn" onclick="startQuiz()">QUERO MEU DIAGNÓSTICO GRATUITO</button></div>
+    <div class="hero-badges">
+      <span class="badge">✓ Dr. Felipe Sanches Carneiro — CRM-MS 12334</span>
+      <span class="badge">✓ Emagrecimento, saúde metabólica e hormonal com ciência</span>
+      <span class="badge">✓ Campo Grande-MS e online</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PRA QUEM É ============ -->
+<section>
+  <div class="wrap">
+    <h2 class="center">Pra quem é esse diagnóstico?</h2>
+    <ul class="list">
+      <li>Pra quem <strong>come bem, se esforça, e mesmo assim o peso não sai</strong> — como se o corpo trabalhasse contra você;</li>
+      <li>Pra quem <strong>acorda de madrugada, dorme mal e acorda cansada</strong>, sem entender o motivo;</li>
+      <li>Pra quem sente <strong>calorões, oscilação de humor ou falta de energia</strong> e não sabe se é menopausa — ou o que fazer a respeito;</li>
+      <li>Pra quem <strong>já tentou dieta e academia dezenas de vezes</strong> e o resultado nunca dura;</li>
+      <li>Pra quem quer <strong>entender o próprio corpo antes de tomar qualquer decisão</strong> — sem pressão, sem enrolação.</li>
+    </ul>
+    <div class="center" style="margin-top:28px"><button class="btn" onclick="startQuiz()">COMEÇAR MEU DIAGNÓSTICO</button></div>
+  </div>
+</section>
+
+<!-- ============ O QUE VOCÊ VAI RECEBER ============ -->
+<section class="alt">
+  <div class="wrap">
+    <h2 class="center">O que você vai receber no seu diagnóstico</h2>
+    <div class="grid">
+      <div class="card"><span class="num">1</span><h3>Grau de desequilíbrio</h3><p>Uma pontuação de 0 a 100 baseada nos seus 3 pilares — sono, alimentação e movimento — para você parar de adivinhar.</p></div>
+      <div class="card"><span class="num">2</span><h3>Impacto na sua vida</h3><p>Quanto isso já está custando — em energia, humor, autoestima e saúde — medido nas suas próprias respostas.</p></div>
+      <div class="card"><span class="num">3</span><h3>O sintoma-chave do seu caso</h3><p>Identificamos qual desequilíbrio (insulina, cortisol, estrogênio) está mais provavelmente travando o seu metabolismo.</p></div>
+      <div class="card"><span class="num">4</span><h3>Plano de ação recomendado</h3><p>Do guia "Emagrecer de Verdade" ao acompanhamento médico: o próximo passo certo para o seu momento — e nada mais que isso.</p></div>
+    </div>
+    <div class="center" style="margin-top:28px"><button class="btn" onclick="startQuiz()">FAZER O DIAGNÓSTICO AGORA</button></div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<div class="quiz-zone" id="quiz-zone">
+  <div class="wrap">
+    <div class="quiz-box" id="quiz-box">
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div id="quiz-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="foot">
+  Dr. Felipe Sanches Carneiro · CRM-MS 12334 · Nutrologia — Emagrecimento e Reposição Hormonal<br>
+  📍 Campo Grande-MS e online · Instagram: @drfelipesanchesc
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+const WHATSAPP_URL = "https://wa.me/5567991792990?text=Ol%C3%A1!%20Fiz%20o%20diagn%C3%B3stico%20e%20quero%20agendar%20minha%20avalia%C3%A7%C3%A3o";
+const EBOOK_NAME   = "Emagrecer de Verdade";
+const EBOOK_URL    = "https://pay.kiwify.com.br/jaVdIvL"; // link de venda do ebook (Kiwify)
+const EBOOK_FALLBACK_URL = "https://wa.me/5567991792990?text=Ol%C3%A1!%20Quero%20comprar%20o%20ebook%20Emagrecer%20de%20Verdade";
+const WEBHOOK_URL  = "https://maestro.adapta.one/webhooks/generic/8315447d4bf2f88f7a8b9774c4c2dc21f8a4f9cf10ef33903eef6f557400cdb4?secret=aa999a02c35e0bf70b7463aa43e8ad0b7328b118b65bf638d717739a4a3e4a21"; // grava o lead no CRM (Google Sheets)
+
+/* ================= PERGUNTAS — MÉTODO SPIN =================
+   S = Situação (1-4) · P = Problema (5-8)
+   I = Implicação, impacto na vida (9-12) · N = Necessidade de solução (13-15)
+   Formato da opção: [valor, rótulo, pontos]
+============================================================= */
+const QUESTIONS = [
+  /* ---- S: SITUAÇÃO ---- */
+  { key:"nome_lead", phase:"Pra começar", title:"Como podemos te chamar?", type:"text", placeholder:"Seu primeiro nome" },
+  { key:"idade", phase:"Sua situação hoje", title:"Qual é a sua faixa de idade?",
+    opts:[["30-40","Entre 30 e 40 anos",0],["41-50","Entre 41 e 50 anos",0],["51-60","Entre 51 e 60 anos",0],["60+","Mais de 60 anos",0]] },
+  { key:"sono", phase:"Sua situação hoje", title:"Como está o seu sono hoje?",
+    opts:[["bom","Durmo bem a noite toda",0],["demora","Demoro a pegar no sono",1],["madrugada","Acordo de madrugada e não volto a dormir",2],["destruida","Durmo a noite toda mas acordo destruída",2],["ambos","Os dois — demoro e acordo de madrugada",2]] },
+  { key:"exercicio", phase:"Sua situação hoje", title:"Com que frequência você se exercita?",
+    opts:[["regular","Regularmente (3x por semana ou mais)",0],["asvezes","De vez em quando, sem constância",1],["parei","Parei há um tempo e não consigo retomar",2],["nunca","Nunca tive esse hábito",1]] },
+  { key:"alimentacao", phase:"Sua situação hoje", title:"Como estão suas refeições hoje?",
+    opts:[["equilibrada","Equilibradas, sem grandes exageros",0],["fim_do_dia","Começo bem e perco o controle no fim do dia",1],["descontrolada","Vivo em função da comida, sem conseguir segurar",2],["emocional","Como por emoção — ansiedade, estresse, cansaço",2]] },
+
+  /* ---- P: PROBLEMA ---- */
+  { key:"desafio", phase:"O que está travando", title:"Qual é o seu maior desafio hoje?",
+    opts:[["peso","O peso travou e não sai de jeito nenhum",2],["sono","O sono ruim",1],["energia","A falta de energia e disposição",1],["calores","Os calorões e as alterações de humor",1],["varios","Um pouco de tudo isso",2]] },
+  { key:"tentou", phase:"O que está travando", title:"Você já tentou dietas e/ou exercícios sem resultado duradouro?",
+    opts:[["sim","Sim, várias vezes",2],["algumas","Uma ou outra vez",1],["nao","Ainda não tentei",0]] },
+  { key:"antojos", phase:"O que está travando", title:"Nos últimos 30 dias, a vontade de comer fora de hora:",
+    opts:[["raro","Quase não apareceram",0],["semanal","Apareceram várias vezes por semana",1],["diario","Aparecem praticamente todos os dias",2]] },
+  { key:"balanca", phase:"O que está travando", title:"O que a balança e a roupa dizem?",
+    opts:[["estavel","Peso estável na faixa que considero saudável",0],["subiu","Subiu nos últimos anos — e a roupa está apertando",1],["muito","Subiu muito e nada do que eu faço resolve",2]] },
+
+  /* ---- I: IMPLICAÇÃO (viscerais) ---- */
+  { key:"fotos", phase:"O impacto na sua vida", title:"{nome}, quando você vê fotos suas, o que sente?",
+    opts:[["normal","Normal — não me afeta",0],["evito","Evito aparecer em fotos",1],["sempre","Evito fotos e espelho há tempos — e isso dói",2]] },
+  { key:"energia_amados", phase:"O impacto na sua vida", title:"{nome}, pense na energia para o que realmente importa: você tem dado conta das pessoas que ama — filhos, netos, quem depende de você?",
+    opts:[["conta","Sim, dou conta",0],["exausta","Acabo o dia sem energia para elas",1],["deixei","Já deixei de fazer coisas por estar exausta",2]] },
+  { key:"exames", phase:"O impacto na sua vida", title:"E os exames — pressão, glicose, colesterol?",
+    opts:[["normais","Estão todos normais",0],["alterando","Começaram a alterar",1],["diagnostico","Já tenho diagnóstico (pressão alta, pré-diabetes…)",2]] },
+  { key:"humor", phase:"O impacto na sua vida", title:"{nome}, na sinceridade: como o seu peso afeta o seu humor e as suas relações?",
+    opts:[["nao_afeta","Não afeta",0],["desanima","Me desanima às vezes",1],["tudo","Afeta tudo — humor, autoestima, intimidade",2]] },
+
+  /* ---- N: NECESSIDADE DE SOLUÇÃO ---- */
+  { key:"inicio", phase:"O próximo passo", title:"{nome}, se existisse um plano claro para resolver isso, quando você gostaria de começar?",
+    hint:"Isso nos ajuda a priorizar o conteúdo que enviamos para você.",
+    opts:[["agora","O quanto antes — isso já me atrapalha há tempo demais",3],["semanas","Nas próximas semanas",2],["meses","Nos próximos meses",1],["entender","Por enquanto só quero entender meu corpo",0]] },
+  { key:"representaria", phase:"O próximo passo", title:"{nome}, resolver isso, na prática, representaria o quê para você?",
+    opts:[["energia","Recuperar energia, sono e disposição para viver de verdade",2],["espelho","Voltar a me reconhecer no espelho",1],["saude","Prevenir os riscos que já vejo chegando",2],["incerta","Ainda não sei dizer",0]] },
+  { key:"investimento", phase:"O próximo passo", title:"{nome}, quando você pensa em cuidar disso de verdade, o que combina mais com o seu momento?",
+    hint:"Resposta usada apenas para recomendar o caminho certo — nada é cobrado aqui.",
+    opts:[["consulta","Acompanhamento médico individualizado",3],["programa","Um programa estruturado com orientação",2],["ebook","Quero começar devagar, com um guia pra me organizar",1],["gratuito","Por enquanto, prefiro conteúdo gratuito",0]] },
+];
+
+/* ================= ESTADO ================= */
+let step = -1;
+let answers = {};
+let lead = { nome:"", whatsapp:"" };
+const TOTAL_STEPS = QUESTIONS.length + 1; // +1 = tela de contato final
+
+function startQuiz(){
+  document.getElementById("quiz-zone").scrollIntoView({behavior:"smooth"});
+  step = -1; answers = {};
+  render();
+}
+function pick(qi, val){
+  const q = QUESTIONS[qi];
+  answers[q.key] = val;
+  document.querySelectorAll(".opt").forEach(el=>el.classList.remove("sel"));
+  event.currentTarget.classList.add("sel");
+  setTimeout(()=>{ step++; render(); }, 220);
+}
+function saveText(qi){
+  const val = document.getElementById("f-nome-lead").value.trim();
+  if(!val){ alert("Me diz como te chamo para continuar 😊"); return; }
+  answers[QUESTIONS[qi].key] = val;
+  step++; render();
+}
+function goBack(){ if(step>0){ step--; render(); } }
+function progressPct(){ return Math.round(((step+1)/TOTAL_STEPS)*100); }
+
+/* Transições de aquecimento entre fases (SPIN) */
+const PHASE_TRANSITIONS = {
+  "O que está travando": "Entendido. Agora vamos ao que dói: o que exatamente está travando o seu resultado.",
+  "O impacto na sua vida": "E agora a parte que quase ninguém para para pensar: o preço que isso cobra da sua vida.",
+  "O próximo passo": "Última parte — e a mais importante. É sobre o que vem depois de entender tudo isso."
+};
+function phaseIntro(){
+  const q = QUESTIONS[step];
+  if(!q) return "";
+  const prev = QUESTIONS[step-1];
+  if(prev && PHASE_TRANSITIONS[q.phase] && prev.phase !== q.phase) return PHASE_TRANSITIONS[q.phase];
+  return "";
+}
+
+function render(){
+  const bar = document.getElementById("bar");
+  const box = document.getElementById("quiz-content");
+  bar.style.width = progressPct() + "%";
+
+  if(step === -1){
+    box.innerHTML = `
+      <div class="q-count">Diagnóstico gratuito · 3 minutos</div>
+      <div class="q-title">Antes de começar, uma coisa importa</div>
+      <p style="color:var(--muted);margin-bottom:14px">Preparamos este diagnóstico para entender o que você busca, o que já tentou e o momento que você está vivendo. São perguntas rápidas — e algumas delas vão tocar em pontos que você talvez evite pensar.</p>
+      <p style="color:var(--ink);font-weight:600;margin-bottom:14px">Responda com calma e, principalmente, com sinceridade.</p>
+      <p style="color:var(--muted);margin-bottom:18px">Não existe resposta certa ou errada aqui. O que existe é o seu corpo tentando te dizer algo — e este é o momento de ouvir.</p>
+      <button class="btn wide" onclick="step=0;render()">COMEÇAR AGORA →</button>
+    `;
+    return;
+  }
+  if(step < QUESTIONS.length){
+    const q = QUESTIONS[step];
+    const firstName = (answers.nome_lead || "").trim().split(/\s+/)[0] || "";
+    const personalize = (t) => firstName ? t.replace(/^([A-ZÀ-Ú][a-zà-ú]+)/, firstName + ", $1").replace("{nome}", firstName) : t.replace("{nome}, ", "");
+    const title = personalize(q.title);
+    if(q.type === "text"){
+      box.innerHTML = `
+        <div class="q-count">Pergunta ${step+1} de ${QUESTIONS.length} · ${q.phase}</div>
+        <div class="q-title">${title}</div>
+        <input class="q-input" id="f-nome-lead" placeholder="${q.placeholder||""}" value="${answers[q.key]||""}">
+        <div style="margin-top:10px"><button class="btn wide" onclick="saveText(${step})">CONTINUAR →</button></div>
+        ${step>0?`<div class="q-nav"><button class="back" onclick="goBack()">← Voltar</button><span></span></div>`:""}
+      `;
+      return;
+    }
+    box.innerHTML = `
+      <div class="q-count">Pergunta ${step+1} de ${QUESTIONS.length} · ${q.phase}</div>
+      ${phaseIntro()?`<p style="color:var(--orange);font-weight:600;font-size:.95rem;margin-bottom:10px">${phaseIntro()}</p>`:""}
+      <div class="q-title">${title}</div>
+      ${q.hint?`<p class="small-note" style="margin:0 0 14px">${q.hint}</p>`:""}
+      ${q.opts.map(([v,label,score])=>
+        `<button class="opt ${answers[q.key]===v?'sel':''}" onclick="pick(${step},'${v}')">${label}</button>`).join("")}
+      ${step>0?`<div class="q-nav"><button class="back" onclick="goBack()">← Voltar</button><span></span></div>`:""}
+    `;
+  } else {
+    const nomeF = (answers.nome_lead || "").trim().split(/\s+/)[0] || "";
+    box.innerHTML = `
+      <div class="q-count">Último passo</div>
+      <div class="q-title">${nomeF}, seu diagnóstico está pronto. Para onde enviamos?</div>
+      <p style="color:var(--muted);margin-bottom:16px">Seu resultado é único e pessoal — por isso ele vai direto para o seu WhatsApp, com a análise do Dr. Felipe sobre o seu caso.</p>
+      <label class="field-label" for="f-wa">Qual o melhor número para falar com você?</label>
+      <input class="q-input" id="f-wa" type="tel" placeholder="(67) 9 9999-9999" value="${lead.whatsapp}">
+      <p class="small-note">🔒 Confidencial. Usado apenas para o seu diagnóstico e, se você quiser, o próximo passo com o Dr. Felipe.</p>
+      <div style="margin-top:16px"><button class="btn wide" onclick="finish()">RECEBER MEU DIAGNÓSTICO →</button></div>
+      <div class="q-nav"><button class="back" onclick="goBack()">← Voltar</button><span></span></div>
+    `;
+  }
+}
+
+function finish(){
+  const nome = (answers.nome_lead || "").trim();
+  const wa   = document.getElementById("f-wa").value.trim();
+  if(!nome || wa.replace(/\D/g,"").length < 10){
+    alert("Preencha um WhatsApp válido para receber o seu diagnóstico.");
+    return;
+  }
+  lead = { nome, whatsapp: wa };
+  sendLead();
+  showLoading();
+}
+
+function sendLead(){
+  const payload = { ...lead, respostas: answers, scores: computeScores(), timestamp: new Date().toISOString() };
+  try{ localStorage.setItem("lead_diagnostico", JSON.stringify(payload)); }catch(e){}
+  if(WEBHOOK_URL){
+    fetch(WEBHOOK_URL,{method:"POST",mode:"no-cors",body:JSON.stringify(payload)}).catch(()=>{});
+  }
+}
+
+/* ================= PONTUAÇÃO =================
+   sintomas: sono, exercicio, alimentacao, desafio, tentou, antojos, balanca → máx 14
+   visceral: fotos, energia_amados, exames, humor                → máx 8
+   urgencia: inicio (0-3) + representaria (0-2)                  → máx 5
+   investimento: 0-3
+================================================= */
+function computeScores(){
+  const byKey = {};
+  QUESTIONS.forEach(q=>{
+    if(!q.opts) return; // pergunta de texto (nome) não tem pontuação
+    const sel = q.opts.find(o=>o[0]===answers[q.key]);
+    if(sel) byKey[q.key] = sel[2];
+  });
+  const sum = keys => keys.reduce((a,k)=>a+(byKey[k]||0),0);
+  const sintomas    = sum(["sono","exercicio","alimentacao","desafio","tentou","antojos","balanca"]);
+  const visceral    = sum(["fotos","energia_amados","exames","humor"]);
+  const urgencia    = sum(["inicio","representaria"]);
+  const investimento = byKey.investimento || 0;
+  return {
+    sintomasPct:   Math.round(sintomas/14*100),
+    visceralPct:   Math.round(visceral/8*100),
+    urgenciaPct:   Math.round(urgencia/5*100),
+    investimento
+  };
+}
+
+/* ================= LOADING ANIMADO ================= */
+const LOAD_PHRASES = [
+  "Analisando o que o seu corpo está tentando te dizer…",
+  "Cruzando seus sintomas com os 3 pilares do metabolismo…",
+  "Medindo o preço que isso já cobra da sua energia e do seu humor…",
+  "Identificando o desequilíbrio que está travando o seu resultado…",
+  "Montando o seu diagnóstico — o seu, não o de todo mundo…"
+];
+function showLoading(){
+  const box = document.getElementById("quiz-content");
+  const bar = document.getElementById("bar");
+  bar.style.width = "100%";
+  let i = 0;
+  box.innerHTML = `
+    <div class="loading">
+      <div class="spinner"></div>
+      <div class="load-phrase" id="load-phrase">${LOAD_PHRASES[0]}</div>
+      <div class="load-track"><div class="fill"></div></div>
+      <p class="small-note" style="margin-top:16px">Isso leva alguns segundos — o seu resultado é único e pessoal.</p>
+    </div>`;
+  const timer = setInterval(()=>{
+    i++;
+    if(i < LOAD_PHRASES.length){
+      document.getElementById("load-phrase").textContent = LOAD_PHRASES[i];
+    } else {
+      clearInterval(timer);
+      showResult();
+    }
+  }, 1200);
+  document.getElementById("quiz-zone").scrollIntoView({behavior:"smooth"});
+}
+
+/* ================= RESULTADO ================= */
+function showResult(){
+  const { sintomasPct, visceralPct, urgenciaPct, investimento } = computeScores();
+  const box = document.getElementById("quiz-content");
+
+  const nome = lead.nome.split(" ")[0];
+  let nivel, nivelTxt, cor, corFill;
+  if(sintomasPct >= 60){ nivel="Alto"; cor="red"; corFill="var(--bad)"; nivelTxt="indícios relevantes de desequilíbrio que tendem a piorar sem intervenção"; }
+  else if(sintomasPct >= 35){ nivel="Moderado"; cor="amber"; corFill="var(--warn)"; nivelTxt="sinais de que o seu metabolismo está desregulado — o momento ideal para agir é agora, antes de virar um problema maior"; }
+  else { nivel="Baixo"; cor="green"; corFill="var(--ok)"; nivelTxt="sinais leves — ótimo momento para ajustar o estilo de vida e prevenir"; }
+
+  let impactoTxt;
+  if(visceralPct >= 60){ impactoTxt = "esse desequilíbrio já cobra um preço alto da sua vida — energia, humor e autoestima. Cuidar disso é cuidar de quem você é, não só de um número na balança."; }
+  else if(visceralPct >= 35){ impactoTxt = "esse desequilíbrio já interfere no seu dia a dia mais do que você costuma admitir."; }
+  else { impactoTxt = "ainda há pouco impacto na sua rotina — o que torna este o melhor momento para agir, antes que ele cresça."; }
+
+  const sintomaChave = {
+    peso:"resistência à insulina / metabolismo travado",
+    sono:"cortisol desregulado afetando o sono",
+    energia:"fadiga associada a desequilíbrio hormonal",
+    calores:"flutuações hormonais (calorões e alterações de humor)",
+    varios:"desequilíbrio hormonal múltiplo (o mais comum com o passar da idade)"
+  }[answers.desafio] || "desequilíbrio metabólico";
+
+  const querConsulta = investimento >= 2 && urgenciaPct >= 40;
+  const querPlano    = investimento >= 2 && urgenciaPct <  40;
+  const dorAlta      = urgenciaPct >= 70 && sintomasPct >= 60;
+  const ebookHref    = EBOOK_URL || EBOOK_FALLBACK_URL;
+
+  // Meta Pixel: quiz concluído = Lead
+  if(window.fbq){ fbq('track','Lead',{content_name:'quiz_diagnostico',nivel:nivel}); }
+
+  let ctaHtml = "";
+  if(querConsulta){
+    ctaHtml = `
+      <div class="cta-consulta">
+        <h3>${nome}, o seu próximo passo é uma avaliação — e o quanto antes.</h3>
+        <p>Você demonstrou urgência genuína para resolver isso e interesse em um acompanhamento de verdade. Uma avaliação de 40 minutos mapeia seus hormônios, seus 3 pilares e define o plano exato para o seu corpo — sem chute.</p>
+        <a class="btn" href="${WHATSAPP_URL}" target="_blank" onclick="if(window.fbq)fbq('track','Contact');">AGENDAR MINHA AVALIAÇÃO AGORA →</a>
+        <p class="small-note" style="color:#ffe3d5">Vagas limitadas por semana para preservar a qualidade do atendimento.</p>
+      </div>
+      <div class="cta-ebook">
+        <h3>Quer começar hoje mesmo, antes da consulta?</h3>
+        <p>Meu guia <strong>${EBOOK_NAME}</strong> acelera os seus primeiros resultados enquanto você aguarda o atendimento.</p>
+        <a class="btn ghost" href="${ebookHref}" target="_blank" onclick="if(window.fbq)fbq('track','InitiateCheckout');">QUERO O GUIA COM DESCONTO DE DIAGNÓSTICO</a>
+      </div>`;
+  } else if(querPlano){
+    ctaHtml = `
+      <div class="cta-ebook">
+        <h3>Seu próximo passo: um plano sob medida</h3>
+        <p>Seu grau é <strong>${nivel}</strong> — dá para reverter com orientação estruturada. Conheça o programa de acompanhamento com protocolo individualizado de emagrecimento e equilíbrio hormonal.</p>
+        <a class="btn" href="${WHATSAPP_URL}" target="_blank" onclick="if(window.fbq)fbq('track','Contact');">QUERO CONHECER O PROGRAMA →</a>
+      </div>
+      <div class="cta-ebook">
+        <h3>Ou comece agora pelo guia ${EBOOK_NAME}</h3>
+        <p>O passo a passo para destravar o seu metabolismo por conta própria — sono, alimentação e movimento.</p>
+        <a class="btn ghost" href="${ebookHref}" target="_blank" onclick="if(window.fbq)fbq('track','InitiateCheckout');">QUERO O GUIA</a>
+      </div>`;
+  } else if(dorAlta){
+    // Dor alta + investimento 0: não é FRIO. Nutre com a consulta em mente (MORNO).
+    ctaHtml = `
+      <div class="cta-ebook">
+        <h3>Seu próximo passo: um plano sob medida</h3>
+        <p>Seu grau é <strong>${nivel}</strong> e a sua urgência é real — isso pede acompanhamento de perto, não tentativa e erro. Conheça a avaliação com o Dr. Felipe: protocolo individualizado de emagrecimento e equilíbrio hormonal.</p>
+        <a class="btn" href="${WHATSAPP_URL}" target="_blank" onclick="if(window.fbq)fbq('track','Contact');">QUERO CONHECER O PROGRAMA →</a>
+      </div>
+      <div class="cta-ebook">
+        <h3>Enquanto isso, o guia ${EBOOK_NAME} já te deixa à frente</h3>
+        <p>O passo a passo para destravar o seu metabolismo por conta própria — sono, alimentação e movimento.</p>
+        <a class="btn ghost" href="${ebookHref}" target="_blank" onclick="if(window.fbq)fbq('track','InitiateCheckout');">QUERO O GUIA</a>
+      </div>`;
+  } else {
+    ctaHtml = `
+      <div class="cta-ebook">
+        <h3>Seu próximo passo: o guia ${EBOOK_NAME}</h3>
+        <p>Como o seu momento é de começar com o pé direito, o caminho é informação de qualidade aplicada desde já. O guia reúne o passo a passo para destravar o seu metabolismo — sono, alimentação e movimento — sem dietas malucas.</p>
+        <a class="btn" href="${ebookHref}" target="_blank" onclick="if(window.fbq)fbq('track','InitiateCheckout');">QUERO O GUIA ${EBOOK_NAME.toUpperCase()} →</a>
+      </div>
+      <div class="cta-ebook" style="border-style:solid;border-color:var(--orange-line)">
+        <h3>Quando quiser ir além do guia</h3>
+        <p>Uma avaliação médica individualizada acelera — e muito — o resultado. Estou à disposição quando você sentir que é a hora.</p>
+        <a class="btn ghost" href="${WHATSAPP_URL}" target="_blank" onclick="if(window.fbq)fbq('track','Contact');">FALAR COM O DR. FELIPE</a>
+      </div>`;
+  }
+
+  box.innerHTML = `
+    <div class="q-count">Diagnóstico concluído ✓</div>
+    <div class="q-title">${nome}, aqui está o seu resultado</div>
+    <div style="font-weight:700;color:var(--ink)">Grau de desequilíbrio estimado: ${nivel} (${sintomasPct}/100)</div>
+    <div class="meter"><div class="fill" style="width:${Math.max(sintomasPct,8)}%;background:${corFill}"></div></div>
+    <div class="meter-label"><span>Equilibrado</span><span>Atenção</span><span>Crítico</span></div>
+    <div style="font-weight:700;color:var(--ink)">Impacto na sua vida: ${visceralPct}/100</div>
+    <div class="meter"><div class="fill" style="width:${Math.max(visceralPct,8)}%;background:${corFill}"></div></div>
+    <div class="meter-label"><span>Leve</span><span>Moderado</span><span>Alto</span></div>
+    <div class="result-card ${cor}">
+      <h3>O que isso significa</h3>
+      <p>Seu padrão de respostas aponta <strong>${nivelTxt}</strong>. E, pelo que você respondeu, ${impactoTxt}</p>
+      <p style="margin-top:8px">O sintoma-chave do seu caso é <strong>${sintomaChave}</strong> — e é por ele que devemos começar.</p>
+    </div>
+    <div class="result-card ${cor}">
+      <h3>Por que isso acontece com o passar da idade</h3>
+      <p>Com o passar dos anos, a queda de estrogênio e a elevação do cortisol mudam a forma como o corpo estoca gordura, regula o sono e controla a fome. Sono, alimentação e movimento continuam sendo os 3 pilares — mas, sem tratar a causa hormonal, é como nadar contra a maré.</p>
+    </div>
+    ${ctaHtml}
+    <p class="small-note center" style="margin-top:18px">Dr. Felipe Sanches Carneiro · CRM-MS 12334 · Campo Grande-MS e online</p>
+  `;
+  document.getElementById("quiz-zone").scrollIntoView({behavior:"smooth"});
+}
+</script>
+</body>
+</html>
